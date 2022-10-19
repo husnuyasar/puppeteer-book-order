@@ -10,8 +10,8 @@ npm install
 ```
 npm run start
 ```
-> The genre selection open after starting
-> A random book belonging to the selected category is selected in *https://www.goodreads.com/choiceawards/best-books-2020*.
-> The book is searched on *amazon.com*
-> First result is selected.
-> Then try to add to cart, then proceed to checkout. 
+* The genre selection open after starting
+* A random book belonging to the selected category is selected in *https://www.goodreads.com/choiceawards/best-books-2020*.
+* The book is searched on *amazon.com*
+* First result is selected.
+* Then try to add to cart, then proceed to checkout. 
