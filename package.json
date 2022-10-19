@@ -1,0 +1,31 @@
+{
+  "name": "book-order",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "files": [
+    "build/*"
+  ],
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "start:dev": "npm run build && node build/index.js",
+    "start": "npx ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Husnu Yasar",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^18.11.0",
+    "@types/prompts": "^2.4.1",
+    "nodemon": "^2.0.20",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.9.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.4"
+  },
+  "dependencies": {
+    "log4js": "^6.7.0",
+    "prompts": "^2.4.2",
+    "puppeteer": "^19.0.0"
+  }
+}
