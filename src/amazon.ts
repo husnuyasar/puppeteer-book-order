@@ -14,11 +14,16 @@ export async function searchInAmazon(text:string) {
     try {
         // Manipulation for physical book.
         text += " paperback hardcover"; 
+        const bookName = text.split('by')[0].trim();
         const browser = await puppeteer.launch({ headless: false, defaultViewport: null});
         const page = await browser.newPage()
         await page.setViewport({ width: 1280, height: 800 })
-        await page.goto('https://www.amazon.com')
+        await Promise.all([
+            page.waitForNavigation({waitUntil: "networkidle0"}), 
+            await page.goto('https://www.amazon.com')
+        ]);
         await page.type('#twotabsearchtextbox', text)
+        
         const searchButton = await page.$('#nav-search-submit-button')
         await Promise.all([
             page.waitForNavigation({waitUntil: "networkidle0"}), 
@@ -29,16 +34,29 @@ export async function searchInAmazon(text:string) {
         const screenshot = "amazon-search.png";
         await page.screenshot({path: screenshot});
 
+        const bookResults = await page.$$('.a-size-mini a');
+        logger.info("Book results count : ",bookResults.length);
+        if (!bookResults) {
+            logger.error("Not found any result!");
+            return;
+        }
+       
+        for (const bookResult of bookResults) {
+            const bookResultTitle =  await bookResult?.$eval('span', span => span.innerHTML);
+            if (bookResultTitle && bookResultTitle.includes(bookName)) {
+                logger.info("Book Result Title : ",bookResultTitle)
+                await Promise.all([
+                    page.waitForNavigation({waitUntil: "networkidle0"}), 
+                    bookResult.click()
+                ]);
 
-        const result = await page.$('img.s-image');
-        await Promise.all([
-            page.waitForNavigation({waitUntil: "networkidle0"}), 
-            result?.click()
-        ]);
-
-        await addToCartAndCheckout(page)
+                await addToCartAndCheckout(page)
+                return
+            }
+        }
     } catch (error : any) {
         logger.error(error.message)
+        return;
     }
 }
 
