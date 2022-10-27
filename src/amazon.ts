@@ -53,6 +53,10 @@ export async function searchInAmazon(text:string) {
                 await addToCartAndCheckout(page)
                 return
             }
+            else {
+                logger.error("No matched book!");
+                return;
+            }
         }
     } catch (error : any) {
         logger.error(error.message)
