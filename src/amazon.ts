@@ -19,14 +19,14 @@ export async function searchInAmazon(text:string) {
         const page = await browser.newPage()
         await page.setViewport({ width: 1280, height: 800 })
         await Promise.all([
-            page.waitForNavigation({waitUntil: "networkidle0"}), 
+            page.waitForNavigation({waitUntil: "domcontentloaded"}), 
             await page.goto('https://www.amazon.com')
         ]);
         await page.type('#twotabsearchtextbox', text)
         
         const searchButton = await page.$('#nav-search-submit-button')
         await Promise.all([
-            page.waitForNavigation({waitUntil: "networkidle0"}), 
+            page.waitForNavigation({waitUntil: "domcontentloaded"}), 
             searchButton?.click()
         ]);
         
@@ -46,7 +46,7 @@ export async function searchInAmazon(text:string) {
             if (bookResultTitle && bookResultTitle.includes(bookName)) {
                 logger.info("Book Result Title : ",bookResultTitle)
                 await Promise.all([
-                    page.waitForNavigation({waitUntil: "networkidle0"}), 
+                    page.waitForNavigation({waitUntil: "domcontentloaded"}), 
                     bookResult.click()
                 ]);
 
@@ -104,7 +104,7 @@ async function addToCartAndCheckout(page: puppeteer.Page) {
         return;
     }
     await Promise.all([
-        page.waitForNavigation({waitUntil: "networkidle0"}), 
+        page.waitForNavigation({waitUntil: "domcontentloaded"}), 
         addCartInput?.click()
     ]);
     logger.info('Book added to cart.');
