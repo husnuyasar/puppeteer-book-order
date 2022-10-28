@@ -32,7 +32,7 @@ export async function searchInAmazon(text:string) {
         
         // screenshot for amazon search screen
         const screenshot = "amazon-search.png";
-        await page.screenshot({path: screenshot});
+        await page.screenshot({path: screenshot, fullPage: true});
 
         const bookResults = await page.$$('.a-size-mini a');
         logger.info("Book results count : ",bookResults.length);
